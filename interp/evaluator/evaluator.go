@@ -26,16 +26,20 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	// Statements
 	case *ast.Program:
 		return evalProgram(node, env)
+
 	case *ast.ExpressionStatement:
 		return Eval(node.Expression, env)
+
 	case *ast.BlockStatement:
 		return evalBlockStatement(node, env)
+
 	case *ast.ReturnStatement:
 		val := Eval(node.ReturnValue, env)
 		if isError(val) {
 			return val
 		}
 		return &object.ReturnValue{Value: val}
+
 	case *ast.LetStatement:
 		val := Eval(node.Value, env)
 		if isError(val) {
@@ -46,14 +50,17 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	// Expressions
 	case *ast.IntegerLiteral:
 		return &object.Integer{Value: node.Value}
+
 	case *ast.Boolean:
 		return nativeBoolToBooleanObject(node.Value)
+
 	case *ast.PrefixExpression:
 		right := Eval(node.Right, env)
 		if isError(right) {
 			return right
 		}
 		return evalPrefixExpression(node.Operator, right)
+
 	case *ast.InfixExpression:
 		left := Eval(node.Left, env)
 		if isError(left) {
@@ -66,21 +73,30 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		}
 
 		return evalInfixExpression(node.Operator, left, right)
+
 	case *ast.IfExpression:
 		return evalIfExpression(node, env)
+
 	case *ast.Identifier:
 		return evalIdentifier(node, env)
+
 	case *ast.FunctionLiteral:
 		params := node.Parameters
 		body := node.Body
 		return &object.Function{Parameters: params, Env: env, Body: body}
+
 	case *ast.ArrayLiteral:
 		elements := evalExpressions(node.Elements, env)
 		if len(elements) == 1 && isError(elements[0]) {
 			return elements[0]
 		}
 		return &object.Array{Elements: elements}
+
 	case *ast.CallExpression:
+		if node.Function.TokenLiteral() == "quote" {
+			return quote(node.Arguments[0])
+		}
+
 		function := Eval(node.Function, env)
 		if isError(function) {
 			return function
@@ -91,6 +107,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 			return args[0]
 		}
 		return applyFunction(function, args)
+
 	case *ast.IndexExpression:
 		left := Eval(node.Left, env)
 		if isError(left) {
@@ -102,8 +119,10 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 			return index
 		}
 		return evalIndexExpression(left, index)
+
 	case *ast.StringLiteral:
 		return &object.String{Value: node.Value}
+
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
 	}
