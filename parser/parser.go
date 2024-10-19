@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/egriff89/monkey/interp/ast"
-	"github.com/egriff89/monkey/interp/lexer"
-	"github.com/egriff89/monkey/interp/token"
+	"github.com/egriff89/monkey/ast"
+	"github.com/egriff89/monkey/lexer"
+	"github.com/egriff89/monkey/token"
 )
 
 const (

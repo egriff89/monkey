@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/egriff89/monkey/interp/evaluator"
-	"github.com/egriff89/monkey/interp/lexer"
-	"github.com/egriff89/monkey/interp/object"
-	"github.com/egriff89/monkey/interp/parser"
+	"github.com/egriff89/monkey/evaluator"
+	"github.com/egriff89/monkey/lexer"
+	"github.com/egriff89/monkey/object"
+	"github.com/egriff89/monkey/parser"
 )
 
 func Start(in io.Reader, out io.Writer) {
