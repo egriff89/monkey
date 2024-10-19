@@ -6,8 +6,8 @@ import (
 	"io"
 
 	"github.com/egriff89/monkey/compiler"
-	"github.com/egriff89/monkey/interp/lexer"
-	"github.com/egriff89/monkey/interp/parser"
+	"github.com/egriff89/monkey/lexer"
+	"github.com/egriff89/monkey/parser"
 	"github.com/egriff89/monkey/vm"
 )
 

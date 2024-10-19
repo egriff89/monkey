@@ -1,7 +1,7 @@
 package ast
 
 import (
-	"github.com/egriff89/monkey/interp/token"
+	"github.com/egriff89/monkey/token"
 	"testing"
 )
 

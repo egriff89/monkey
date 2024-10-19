@@ -3,8 +3,8 @@ package evaluator
 import (
 	"fmt"
 
-	"github.com/egriff89/monkey/interp/ast"
-	"github.com/egriff89/monkey/interp/object"
+	"github.com/egriff89/monkey/ast"
+	"github.com/egriff89/monkey/object"
 )
 
 var (

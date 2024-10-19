@@ -2,7 +2,7 @@ package ast
 
 import (
 	"bytes"
-	"github.com/egriff89/monkey/interp/token"
+	"github.com/egriff89/monkey/token"
 	"strings"
 )
 

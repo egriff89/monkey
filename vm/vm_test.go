@@ -2,11 +2,11 @@ package vm
 
 import (
 	"fmt"
+	"github.com/egriff89/monkey/ast"
 	"github.com/egriff89/monkey/compiler"
-	"github.com/egriff89/monkey/interp/ast"
-	"github.com/egriff89/monkey/interp/lexer"
-	"github.com/egriff89/monkey/interp/object"
-	"github.com/egriff89/monkey/interp/parser"
+	"github.com/egriff89/monkey/lexer"
+	"github.com/egriff89/monkey/object"
+	"github.com/egriff89/monkey/parser"
 	"testing"
 )
 

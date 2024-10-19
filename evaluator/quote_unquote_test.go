@@ -3,7 +3,7 @@ package evaluator
 import (
 	"testing"
 
-	"github.com/egriff89/monkey/interp/object"
+	"github.com/egriff89/monkey/object"
 )
 
 func TestQuote(t *testing.T) {
