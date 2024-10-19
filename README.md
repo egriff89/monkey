@@ -1,4 +1,2 @@
-# monkey
-Interpreter and Compiler for the Monkey programming language
-- [x] [Writing an Interpreter in Go](https://interpreterbook.com/)
-- [ ] [Writing a Compiler in Go](https://compilerbook.com/)
+# Monkey
+This branch contains the final state of the Monkey interpreter from [Writing an Interpreter in Go](https://interpreterbook.com/) and includes the macro system from The Lost Chapter. The `main` branch contains the compiler which is built off of the interpreter code found here.
