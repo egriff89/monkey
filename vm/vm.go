@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/egriff89/monkey/code"
 	"github.com/egriff89/monkey/compiler"
-	"github.com/egriff89/monkey/interp/object"
+	"github.com/egriff89/monkey/object"
 )
 
 const StackSize = 2048

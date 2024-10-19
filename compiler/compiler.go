@@ -2,9 +2,9 @@ package compiler
 
 import (
 	"fmt"
+	"github.com/egriff89/monkey/ast"
 	"github.com/egriff89/monkey/code"
-	"github.com/egriff89/monkey/interp/ast"
-	"github.com/egriff89/monkey/interp/object"
+	"github.com/egriff89/monkey/object"
 )
 
 type Compiler struct {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/egriff89/monkey/interp/repl"
+	"github.com/egriff89/monkey/repl"
 	"os"
 	"os/user"
 )

@@ -6,7 +6,7 @@ import (
 	"hash/fnv"
 	"strings"
 
-	"github.com/egriff89/monkey/interp/ast"
+	"github.com/egriff89/monkey/ast"
 )
 
 type ObjectType string
