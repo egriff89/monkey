@@ -174,7 +174,7 @@ func TestBooleanExpressions(t *testing.T) {
 	runCompilerTests(t, tests)
 }
 
-func TestConsitionals(t *testing.T) {
+func TestConditionals(t *testing.T) {
 	tests := []compilerTestCase{
 		{
 			input:             "if (true) { 10 }; 3333;",
