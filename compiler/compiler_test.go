@@ -249,7 +249,7 @@ func TestGlobalLetStatements(t *testing.T) {
 			expectedInstructions: []code.Instructions{
 				code.Make(code.OpConstant, 0),
 				code.Make(code.OpSetGlobal, 0),
-				code.Make(code.OpSetGlobal, 1),
+				code.Make(code.OpGetGlobal, 0),
 				code.Make(code.OpPop),
 			},
 		},
