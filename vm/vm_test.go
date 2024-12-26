@@ -400,13 +400,12 @@ func TestCallingFunctionsWithWrongArguments(t *testing.T) {
 		program := parse(tt.input)
 
 		comp := compiler.New()
-		err := comp.Compile(program)
-		if err != nil {
+		if err := comp.Compile(program); err != nil {
 			t.Fatalf("compiler error: %s", err)
 		}
 
 		vm := New(comp.Bytecode())
-		err = vm.Run()
+		err := vm.Run()
 		if err == nil {
 			t.Fatalf("expected VM error but resulted in none.")
 		}
@@ -463,14 +462,12 @@ func runVmTests(t *testing.T, tests []vmTestCase) {
 		program := parse(tt.input)
 
 		comp := compiler.New()
-		err := comp.Compile(program)
-		if err != nil {
+		if err := comp.Compile(program); err != nil {
 			t.Fatalf("compiler error: %s", err)
 		}
 
 		vm := New(comp.Bytecode())
-		err = vm.Run()
-		if err != nil {
+		if err := vm.Run(); err != nil {
 			t.Fatalf("vm error: %s", err)
 		}
 
@@ -485,14 +482,12 @@ func testExpectedObject(t *testing.T, expected interface{}, actual object.Object
 
 	switch expected := expected.(type) {
 	case int:
-		err := testIntegerObject(int64(expected), actual)
-		if err != nil {
+		if err := testIntegerObject(int64(expected), actual); err != nil {
 			t.Errorf("testIntegerObject failed: %s", err)
 		}
 
 	case bool:
-		err := testBooleanObject(bool(expected), actual)
-		if err != nil {
+		if err := testBooleanObject(bool(expected), actual); err != nil {
 			t.Errorf("testBooleanObject failed: %s", err)
 		}
 
@@ -502,8 +497,7 @@ func testExpectedObject(t *testing.T, expected interface{}, actual object.Object
 		}
 
 	case string:
-		err := testStringObject(expected, actual)
-		if err != nil {
+		if err := testStringObject(expected, actual); err != nil {
 			t.Errorf("testStringObject failed: %s", err)
 		}
 
@@ -520,8 +514,7 @@ func testExpectedObject(t *testing.T, expected interface{}, actual object.Object
 		}
 
 		for i, expectedElem := range expected {
-			err := testIntegerObject(int64(expectedElem), array.Elements[i])
-			if err != nil {
+			if err := testIntegerObject(int64(expectedElem), array.Elements[i]); err != nil {
 				t.Errorf("testIntegerObject failed: %s", err)
 			}
 		}
@@ -554,8 +547,7 @@ func testExpectedObject(t *testing.T, expected interface{}, actual object.Object
 				t.Errorf("no pair for given key in Pairs")
 			}
 
-			err := testIntegerObject(expectedValue, pair.Value)
-			if err != nil {
+			if err := testIntegerObject(expectedValue, pair.Value); err != nil {
 				t.Errorf("testIntegerObject failed: %s", err)
 			}
 		}

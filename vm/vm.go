@@ -65,20 +65,17 @@ func (vm *VM) Run() error {
 			constIndex := code.ReadUint16(ins[ip+1:])
 			vm.currentFrame().ip += 2
 
-			err := vm.push(vm.constants[constIndex])
-			if err != nil {
+			if err := vm.push(vm.constants[constIndex]); err != nil {
 				return err
 			}
 
 		case code.OpAdd, code.OpSub, code.OpMul, code.OpDiv:
-			err := vm.executeBinaryOperation(op)
-			if err != nil {
+			if err := vm.executeBinaryOperation(op); err != nil {
 				return err
 			}
 
 		case code.OpEqual, code.OpNotEqual, code.OpGreaterThan:
-			err := vm.executeComparison(op)
-			if err != nil {
+			if err := vm.executeComparison(op); err != nil {
 				return err
 			}
 
@@ -95,8 +92,7 @@ func (vm *VM) Run() error {
 			globalIndex := code.ReadUint16(ins[ip+1:])
 			vm.currentFrame().ip += 2
 
-			err := vm.push(vm.globals[globalIndex])
-			if err != nil {
+			if err := vm.push(vm.globals[globalIndex]); err != nil {
 				return err
 			}
 
@@ -114,32 +110,27 @@ func (vm *VM) Run() error {
 
 			frame := vm.currentFrame()
 
-			err := vm.push(vm.stack[frame.basePointer+int(localIndex)])
-			if err != nil {
+			if err := vm.push(vm.stack[frame.basePointer+int(localIndex)]); err != nil {
 				return err
 			}
 
 		case code.OpTrue:
-			err := vm.push(True)
-			if err != nil {
+			if err := vm.push(True); err != nil {
 				return err
 			}
 
 		case code.OpFalse:
-			err := vm.push(False)
-			if err != nil {
+			if err := vm.push(False); err != nil {
 				return err
 			}
 
 		case code.OpBang:
-			err := vm.executeBangOperator()
-			if err != nil {
+			if err := vm.executeBangOperator(); err != nil {
 				return err
 			}
 
 		case code.OpMinus:
-			err := vm.executeMinusOperator()
-			if err != nil {
+			if err := vm.executeMinusOperator(); err != nil {
 				return err
 			}
 		case code.OpJump:
@@ -156,8 +147,7 @@ func (vm *VM) Run() error {
 			}
 
 		case code.OpNull:
-			err := vm.push(Null)
-			if err != nil {
+			if err := vm.push(Null); err != nil {
 				return err
 			}
 
@@ -168,8 +158,7 @@ func (vm *VM) Run() error {
 			array := vm.buildArray(vm.sp-numElements, vm.sp)
 			vm.sp = vm.sp - numElements
 
-			err := vm.push(array)
-			if err != nil {
+			if err := vm.push(array); err != nil {
 				return err
 			}
 
@@ -183,8 +172,7 @@ func (vm *VM) Run() error {
 			}
 			vm.sp = vm.sp - numElements
 
-			err = vm.push(hash)
-			if err != nil {
+			if err = vm.push(hash); err != nil {
 				return err
 			}
 
@@ -192,8 +180,7 @@ func (vm *VM) Run() error {
 			index := vm.pop()
 			left := vm.pop()
 
-			err := vm.executeIndexExpression(left, index)
-			if err != nil {
+			if err := vm.executeIndexExpression(left, index); err != nil {
 				return err
 			}
 
@@ -201,8 +188,7 @@ func (vm *VM) Run() error {
 			numArgs := code.ReadUint8(ins[ip+1:])
 			vm.currentFrame().ip += 1
 
-			err := vm.executeCall(int(numArgs))
-			if err != nil {
+			if err := vm.executeCall(int(numArgs)); err != nil {
 				return err
 			}
 
@@ -212,8 +198,7 @@ func (vm *VM) Run() error {
 			frame := vm.popFrame()
 			vm.sp = frame.basePointer - 1
 
-			err := vm.push(returnValue)
-			if err != nil {
+			if err := vm.push(returnValue); err != nil {
 				return err
 			}
 
@@ -221,8 +206,7 @@ func (vm *VM) Run() error {
 			frame := vm.popFrame()
 			vm.sp = frame.basePointer - 1
 
-			err := vm.push(Null)
-			if err != nil {
+			if err := vm.push(Null); err != nil {
 				return err
 			}
 
@@ -232,8 +216,7 @@ func (vm *VM) Run() error {
 
 			definition := object.Builtins[builtinIndex]
 
-			err := vm.push(definition.Builtin)
-			if err != nil {
+			if err := vm.push(definition.Builtin); err != nil {
 				return err
 			}
 		}

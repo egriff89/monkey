@@ -770,20 +770,17 @@ func runCompilerTests(t *testing.T, tests []compilerTestCase) {
 		program := parse(tt.input)
 
 		compiler := New()
-		err := compiler.Compile(program)
-		if err != nil {
+		if err := compiler.Compile(program); err != nil {
 			t.Fatalf("compiler error: %s", err)
 		}
 
 		bytecode := compiler.Bytecode()
 
-		err = testInstructions(tt.expectedInstructions, bytecode.Instructions)
-		if err != nil {
+		if err := testInstructions(tt.expectedInstructions, bytecode.Instructions); err != nil {
 			t.Fatalf("testInstructions failed: %s", err)
 		}
 
-		err = testConstants(tt.expectedConstants, bytecode.Constants)
-		if err != nil {
+		if err := testConstants(tt.expectedConstants, bytecode.Constants); err != nil {
 			t.Fatalf("testConstants failed: %s", err)
 		}
 	}
@@ -829,14 +826,12 @@ func testConstants(expected []interface{}, actual []object.Object) error {
 	for i, constant := range expected {
 		switch constant := constant.(type) {
 		case int:
-			err := testIntegerObject(int64(constant), actual[i])
-			if err != nil {
+			if err := testIntegerObject(int64(constant), actual[i]); err != nil {
 				return fmt.Errorf("constant %d - testIntegerObject failed: %s", i, err)
 			}
 
 		case string:
-			err := testStringObject(constant, actual[i])
-			if err != nil {
+			if err := testStringObject(constant, actual[i]); err != nil {
 				return fmt.Errorf("constant %d - testStringObject failed: %s", i, err)
 			}
 
@@ -846,8 +841,7 @@ func testConstants(expected []interface{}, actual []object.Object) error {
 				return fmt.Errorf("constant %d - not a function: %T", i, actual[i])
 			}
 
-			err := testInstructions(constant, fn.Instructions)
-			if err != nil {
+			if err := testInstructions(constant, fn.Instructions); err != nil {
 				return fmt.Errorf("constant %d - testInstructions failed: %s", i, err)
 			}
 		}

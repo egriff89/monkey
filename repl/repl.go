@@ -41,8 +41,7 @@ func Start(in io.Reader, out io.Writer) {
 		}
 
 		comp := compiler.NewWithState(symbolTable, constants)
-		err := comp.Compile(program)
-		if err != nil {
+		if err := comp.Compile(program); err != nil {
 			fmt.Fprintf(out, "Woops! Compilation failed:\n %s\n", err)
 			continue
 		}
@@ -51,8 +50,7 @@ func Start(in io.Reader, out io.Writer) {
 		constants = code.Constants
 
 		machine := vm.NewWithGlobalsStore(code, globals)
-		err = machine.Run()
-		if err != nil {
+		if err := machine.Run(); err != nil {
 			fmt.Fprintf(out, "Woops! Executing bytecode failed:\n %s\n", err)
 			continue
 		}

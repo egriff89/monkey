@@ -63,15 +63,13 @@ func (c *Compiler) Compile(node ast.Node) error {
 	switch node := node.(type) {
 	case *ast.Program:
 		for _, s := range node.Statements {
-			err := c.Compile(s)
-			if err != nil {
+			if err := c.Compile(s); err != nil {
 				return err
 			}
 		}
 
 	case *ast.LetStatement:
-		err := c.Compile(node.Value)
-		if err != nil {
+		if err := c.Compile(node.Value); err != nil {
 			return err
 		}
 
@@ -91,16 +89,14 @@ func (c *Compiler) Compile(node ast.Node) error {
 		c.loadSymbol(symbol)
 
 	case *ast.ExpressionStatement:
-		err := c.Compile(node.Expression)
-		if err != nil {
+		if err := c.Compile(node.Expression); err != nil {
 			return err
 		}
 		c.emit(code.OpPop)
 
 	case *ast.BlockStatement:
 		for _, s := range node.Statements {
-			err := c.Compile(s)
-			if err != nil {
+			if err := c.Compile(s); err != nil {
 				return err
 			}
 		}
@@ -111,8 +107,7 @@ func (c *Compiler) Compile(node ast.Node) error {
 
 	case *ast.ArrayLiteral:
 		for _, el := range node.Elements {
-			err := c.Compile(el)
-			if err != nil {
+			if err := c.Compile(el); err != nil {
 				return err
 			}
 		}
@@ -129,12 +124,10 @@ func (c *Compiler) Compile(node ast.Node) error {
 		})
 
 		for _, k := range keys {
-			err := c.Compile(k)
-			if err != nil {
+			if err := c.Compile(k); err != nil {
 				return err
 			}
-			err = c.Compile(node.Pairs[k])
-			if err != nil {
+			if err := c.Compile(node.Pairs[k]); err != nil {
 				return err
 			}
 		}
@@ -142,8 +135,7 @@ func (c *Compiler) Compile(node ast.Node) error {
 		c.emit(code.OpHash, len(node.Pairs)*2)
 
 	case *ast.PrefixExpression:
-		err := c.Compile(node.Right)
-		if err != nil {
+		if err := c.Compile(node.Right); err != nil {
 			return err
 		}
 
@@ -158,13 +150,11 @@ func (c *Compiler) Compile(node ast.Node) error {
 
 	case *ast.InfixExpression:
 		if node.Operator == "<" {
-			err := c.Compile(node.Right)
-			if err != nil {
+			if err := c.Compile(node.Right); err != nil {
 				return err
 			}
 
-			err = c.Compile(node.Left)
-			if err != nil {
+			if err := c.Compile(node.Left); err != nil {
 				return err
 			}
 
@@ -172,13 +162,11 @@ func (c *Compiler) Compile(node ast.Node) error {
 			return nil
 		}
 
-		err := c.Compile(node.Left)
-		if err != nil {
+		if err := c.Compile(node.Left); err != nil {
 			return err
 		}
 
-		err = c.Compile(node.Right)
-		if err != nil {
+		if err := c.Compile(node.Right); err != nil {
 			return err
 		}
 
@@ -202,16 +190,14 @@ func (c *Compiler) Compile(node ast.Node) error {
 		}
 
 	case *ast.IfExpression:
-		err := c.Compile(node.Condition)
-		if err != nil {
+		if err := c.Compile(node.Condition); err != nil {
 			return err
 		}
 
 		// Emit an `OpJumpNotTruthy` with a bogus value
 		jumpNotTruthyPos := c.emit(code.OpJumpNotTruthy, 9999)
 
-		err = c.Compile(node.Consequence)
-		if err != nil {
+		if err := c.Compile(node.Consequence); err != nil {
 			return err
 		}
 
@@ -228,8 +214,7 @@ func (c *Compiler) Compile(node ast.Node) error {
 		if node.Alternative == nil {
 			c.emit(code.OpNull)
 		} else {
-			err = c.Compile(node.Alternative)
-			if err != nil {
+			if err := c.Compile(node.Alternative); err != nil {
 				return err
 			}
 
@@ -242,13 +227,11 @@ func (c *Compiler) Compile(node ast.Node) error {
 		c.changeOperand(jumpPos, afterAlternativePos)
 
 	case *ast.IndexExpression:
-		err := c.Compile(node.Left)
-		if err != nil {
+		if err := c.Compile(node.Left); err != nil {
 			return err
 		}
 
-		err = c.Compile(node.Index)
-		if err != nil {
+		if err := c.Compile(node.Index); err != nil {
 			return err
 		}
 
@@ -272,8 +255,7 @@ func (c *Compiler) Compile(node ast.Node) error {
 			c.symbolTable.Define(p.Value)
 		}
 
-		err := c.Compile(node.Body)
-		if err != nil {
+		if err := c.Compile(node.Body); err != nil {
 			return err
 		}
 
@@ -295,22 +277,20 @@ func (c *Compiler) Compile(node ast.Node) error {
 		c.emit(code.OpConstant, c.addConstant(compiledFn))
 
 	case *ast.ReturnStatement:
-		err := c.Compile(node.ReturnValue)
-		if err != nil {
+
+		if err := c.Compile(node.ReturnValue); err != nil {
 			return err
 		}
 
 		c.emit(code.OpReturnValue)
 
 	case *ast.CallExpression:
-		err := c.Compile(node.Function)
-		if err != nil {
+		if err := c.Compile(node.Function); err != nil {
 			return err
 		}
 
 		for _, a := range node.Arguments {
-			err := c.Compile(a)
-			if err != nil {
+			if err := c.Compile(a); err != nil {
 				return err
 			}
 		}
