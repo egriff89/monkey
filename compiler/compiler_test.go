@@ -832,13 +832,17 @@ func TestClosures(t *testing.T) {
 			let global = 55;
 
 			fn() {
-			    let b = 77;
+			    let a = 66;
 
-				fn() {
-				    let c = 88;
+			    fn() {
+			        let b = 77;
 
-					global + a + b + c;
-				}
+				    fn() {
+				        let c = 88;
+
+					    global + a + b + c;
+				    }
+			    }
 			}
 			`,
 			expectedConstants: []interface{}{
